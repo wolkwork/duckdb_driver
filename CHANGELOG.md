@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.17.0](https://github.com/wolkwork/duckdb_driver/compare/v0.16.0...v0.17.0) (2026-01-22)
+
+
+### Features
+
+* add support for attaching ducklakes ([958a737](https://github.com/wolkwork/duckdb_driver/commit/958a73737d3e6cc197ae47cdfbbb54ac3619cbbd))
+* add support for attaching ducklakes ([0affc90](https://github.com/wolkwork/duckdb_driver/commit/0affc906be426a8c39f4f315e0e0c9d40dc0a0e7))
+
 ## [0.16.0](https://github.com/wolkwork/duckdb_driver/compare/v0.17.0...v0.16.0) (2026-01-22)
 
 
