@@ -2,7 +2,7 @@
 
 This project is a fork of [duckdb-engine](https://github.com/Mause/duckdb_engine).
 
-[![Supported Python Versions](https://img.shields.io/pypi/pyversions/duckdb-engine)](https://pypi.org/project/duckdb-engine/) [![PyPI version](https://badge.fury.io/py/duckdb-engine.svg)](https://badge.fury.io/py/duckdb-engine) [![PyPI Downloads](https://img.shields.io/pypi/dm/duckdb-engine.svg)](https://pypi.org/project/duckdb-engine/) [![codecov](https://codecov.io/gh/Mause/duckdb_engine/graph/badge.svg)](https://codecov.io/gh/Mause/duckdb_engine)
+[![Supported Python Versions](https://img.shields.io/pypi/pyversions/duckdb-driver)](https://pypi.org/project/duckdb-driver/) [![PyPI version](https://badge.fury.io/py/duckdb-driver.svg)](https://badge.fury.io/py/duckdb-driver) [![PyPI Downloads](https://img.shields.io/pypi/dm/duckdb-driver.svg)](https://pypi.org/project/duckdb-driver/) [![codecov](https://codecov.io/github/wolkwork/duckdb_driver/graph/badge.svg?token=UUZ316JOY0)](https://codecov.io/github/wolkwork/duckdb_driver)
 
 Basic SQLAlchemy driver for [DuckDB](https://duckdb.org/)
 
