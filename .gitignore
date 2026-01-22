@@ -10,7 +10,11 @@ htmlcov/
 coverage.xml
 .DS_Store
 .hypothesis/*
+.hypothesis
 .idea
 .vscode
 results.xml
-venv
+.venv
+.ruff_cache
+.nox
+.claude

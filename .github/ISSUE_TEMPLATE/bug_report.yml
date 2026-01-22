@@ -19,9 +19,9 @@ body:
     validations:
       required: true
   - type: input
-    id: duckdb_engine_version
+    id: duckdb_driver_version
     attributes:
-      label: DuckDB Engine Version
+      label: DuckDB Driver Version
       description: What version of our software are you running?
     validations:
       required: true

@@ -1,11 +1,13 @@
-# duckdb_engine
+# duckdb_driver
 
-[![Supported Python Versions](https://img.shields.io/pypi/pyversions/duckdb-engine)](https://pypi.org/project/duckdb-engine/) [![PyPI version](https://badge.fury.io/py/duckdb-engine.svg)](https://badge.fury.io/py/duckdb-engine) [![PyPI Downloads](https://img.shields.io/pypi/dm/duckdb-engine.svg)](https://pypi.org/project/duckdb-engine/) [![codecov](https://codecov.io/gh/Mause/duckdb_engine/graph/badge.svg)](https://codecov.io/gh/Mause/duckdb_engine)
+This project is a fork of [duckdb-engine](https://github.com/Mause/duckdb_engine).
+
+[![Supported Python Versions](https://img.shields.io/pypi/pyversions/duckdb-driver)](https://pypi.org/project/duckdb-driver/) [![PyPI version](https://badge.fury.io/py/duckdb-driver.svg)](https://badge.fury.io/py/duckdb-driver) [![PyPI Downloads](https://img.shields.io/pypi/dm/duckdb-driver.svg)](https://pypi.org/project/duckdb-driver/) [![codecov](https://codecov.io/github/wolkwork/duckdb_driver/graph/badge.svg?token=UUZ316JOY0)](https://codecov.io/github/wolkwork/duckdb_driver)
 
 Basic SQLAlchemy driver for [DuckDB](https://duckdb.org/)
 
 <!--ts-->
-- [duckdb\_engine](#duckdb_engine)
+- [duckdb\_driver](#duckdb_driver)
   - [Installation](#installation)
   - [Usage](#usage)
   - [Usage in IPython/Jupyter](#usage-in-ipythonjupyter)
@@ -27,10 +29,8 @@ Basic SQLAlchemy driver for [DuckDB](https://duckdb.org/)
 
 ## Installation
 ```sh
-$ pip install duckdb-engine
+$ pip install duckdb-driver
 ```
-
-DuckDB Engine also has a conda feedstock available, the instructions for the use of which are available in it's [repository](https://github.com/conda-forge/duckdb-engine-feedstock).
 
 ## Usage
 
@@ -65,7 +65,7 @@ assert frank.name == "Frank"
 
 ## Usage in IPython/Jupyter
 
-With IPython-SQL and DuckDB-Engine you can query DuckDB natively in your notebook! Check out [DuckDB's documentation](https://duckdb.org/docs/guides/python/jupyter) or
+With IPython-SQL and DuckDB-Driver you can query DuckDB natively in your notebook! Check out [DuckDB's documentation](https://duckdb.org/docs/guides/python/jupyter) or
 Alex Monahan's great demo of this on [his blog](https://alex-monahan.github.io/2021/08/22/Python_and_SQL_Better_Together.html#an-example-workflow-with-duckdb).
 
 ## Configuration
@@ -100,7 +100,7 @@ conn.execute("select * from dataframe_name")
 ```
 
 ## Things to keep in mind
-Duckdb's SQL parser is based on the PostgreSQL parser, but not all features in PostgreSQL are supported in duckdb. Because the `duckdb_engine` dialect is derived from the `postgresql` dialect, `SQLAlchemy` may try to use PostgreSQL-only features. Below are some caveats to look out for.
+Duckdb's SQL parser is based on the PostgreSQL parser, but not all features in PostgreSQL are supported in duckdb. Because the `duckdb_driver` dialect is derived from the `postgresql` dialect, `SQLAlchemy` may try to use PostgreSQL-only features. Below are some caveats to look out for.
 
 ### Auto-incrementing ID columns
 When defining an Integer column as a primary key, `SQLAlchemy` uses the `SERIAL` datatype for PostgreSQL. Duckdb does not yet support this datatype because it's a non-standard PostgreSQL legacy type, so a workaround is to use the `SQLAlchemy.Sequence()` object to auto-increment the key. For more information on sequences, you can find the [`SQLAlchemy Sequence` documentation here](https://docs.sqlalchemy.org/en/14/core/defaults.html#associating-a-sequence-as-the-server-side-default).
@@ -201,4 +201,4 @@ create_engine(
 
 ## The name
 
-Yes, I'm aware this package should be named `duckdb-driver` or something, I wasn't thinking when I named it and it's too hard to change the name now
+Yes, i thought forking and looking to maintain this was a good moment to also rename it to `duckdb-driver`.
