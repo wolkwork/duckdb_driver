@@ -7,7 +7,7 @@ This project is a fork of [duckdb-engine](https://github.com/Mause/duckdb_engine
 Basic SQLAlchemy driver for [DuckDB](https://duckdb.org/)
 
 <!--ts-->
-- [duckdb\_engine](#duckdb_engine)
+- [duckdb\_driver](#duckdb_driver)
   - [Installation](#installation)
   - [Usage](#usage)
   - [Usage in IPython/Jupyter](#usage-in-ipythonjupyter)
@@ -201,4 +201,4 @@ create_engine(
 
 ## The name
 
-Yes, I'm aware this package should be named `duckdb-driver` or something, I wasn't thinking when I named it and it's too hard to change the name now
+Yes, i thought forking and looking to maintain this was a good moment to also rename it to `duckdb-driver`.
