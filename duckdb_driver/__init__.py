@@ -245,7 +245,7 @@ class DuckDBNullType(sqltypes.NullType):
 
 class Dialect(PGDialect_psycopg2):
     name = "duckdb"
-    driver = "duckdb_engine"
+    driver = "duckdb_driver"
     _has_events = False
     supports_statement_cache = False
     supports_comments = has_comment_support()
@@ -291,7 +291,7 @@ class Dialect(PGDialect_psycopg2):
 
         ext = {k: config.pop(k) for k in list(config) if k not in core_keys}
         if supports_user_agent:
-            user_agent = f"duckdb_engine/{__version__}(sqlalchemy/{sqlalchemy_version})"
+            user_agent = f"duckdb_driver/{__version__}(sqlalchemy/{sqlalchemy_version})"
             if "custom_user_agent" in config:
                 user_agent = f"{user_agent} {config['custom_user_agent']}"
             config["custom_user_agent"] = user_agent
@@ -631,7 +631,7 @@ class Dialect(PGDialect_psycopg2):
 
         return columns.items()
 
-    # fix for https://github.com/Mause/duckdb_engine/issues/1128
+    # fix for https://github.com/wolkwork/duckdb_driver/issues/1128
     # (Overrides sqlalchemy method)
     @lru_cache()
     def _comment_query(  # type: ignore[no-untyped-def]

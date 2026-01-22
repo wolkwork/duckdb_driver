@@ -1,5 +1,5 @@
 [project]
-name = "duckdb_engine"
+name = "duckdb_driver"
 version = "0.17.0"
 description = "SQLAlchemy driver for duckdb"
 authors = [
@@ -16,9 +16,9 @@ dependencies = [
 ]
 
 [project.urls]
-"Bug Tracker" = "https://github.com/Mause/duckdb_engine/issues"
-Changelog = "https://github.com/Mause/duckdb_engine/releases"
-repository = "https://github.com/Mause/duckdb_engine"
+"Bug Tracker" = "https://github.com/wolkwork/duckdb_driver/issues"
+Changelog = "https://github.com/wolkwork/duckdb_driver/releases"
+repository = "https://github.com/wolkwork/duckdb_driver"
 
 [tool.poetry.group.dev.dependencies]
 numpy = "*"
