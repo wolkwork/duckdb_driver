@@ -1,5 +1,98 @@
 # Changelog
 
+## [0.16.0](https://github.com/wolkwork/duckdb_driver/compare/v0.17.0...v0.16.0) (2026-01-22)
+
+
+### ⚠ BREAKING CHANGES
+
+* drop python 3.8
+
+### Features
+
+* Add supported MotherDuck connection string parameters ([c57f024](https://github.com/wolkwork/duckdb_driver/commit/c57f0249573abe65d15e93a605299e3d453e1d11))
+* first class interval support ([286abb5](https://github.com/wolkwork/duckdb_driver/commit/286abb585227455b4237147327cdfb5a8e90f938))
+* migrate to uv for testing ([3727298](https://github.com/wolkwork/duckdb_driver/commit/37272982421387f8157652e902ecc861c326cc62))
+* reexport postgresql insert function ([51dbb18](https://github.com/wolkwork/duckdb_driver/commit/51dbb186cff25c340c8395ef660cd6485923ec04))
+* register filesystems ([9f7c796](https://github.com/wolkwork/duckdb_driver/commit/9f7c79675345ddad0a3691a40c104fb8229eabfc))
+* register filesystems ([d6805af](https://github.com/wolkwork/duckdb_driver/commit/d6805af2ac91dcab5effdd138918554677308962))
+
+
+### Bug Fixes
+
+* add back release please config ([5b6ffa1](https://github.com/wolkwork/duckdb_driver/commit/5b6ffa1b8679c053b475803be799c47c4bd47bf0))
+* add new type names for 0.10.3 ([5b15b2b](https://github.com/wolkwork/duckdb_driver/commit/5b15b2b802f20f8efeed38db5cf91064e0767f63))
+* add new types names for 0.10.3 ([8e0ca8e](https://github.com/wolkwork/duckdb_driver/commit/8e0ca8ee2f6d8341ea8274b465259ac4b54d312c))
+* add python 3.11 to test matrix, remove 3.9 ([76cbd77](https://github.com/wolkwork/duckdb_driver/commit/76cbd7737017ba678cb6cff21221042d6715a14e))
+* add supported MotherDuck connection string parameters ([fe31bf6](https://github.com/wolkwork/duckdb_driver/commit/fe31bf6266e73705ce3f53eea07f79ec07dd7987))
+* add varint type ([220c18f](https://github.com/wolkwork/duckdb_driver/commit/220c18f310d113bbfffa9c82379eca6c7cf7f95b))
+* allow connections to be properly closed ([e10374a](https://github.com/wolkwork/duckdb_driver/commit/e10374a26f3f7f2fd56069032d4643f5c78cf526))
+* allow connections to be properly closed ([0e57a64](https://github.com/wolkwork/duckdb_driver/commit/0e57a645f4dbdddde6ffc9a274ba104ea0070147))
+* avoid mutating caller's connect args (don't accumulate user_agents) ([174df9e](https://github.com/wolkwork/duckdb_driver/commit/174df9ee1af3de31d9d281f26c7eab0f48afaca0))
+* avoid mutating caller's connect args (don't accumulate user_agents) ([8f39aca](https://github.com/wolkwork/duckdb_driver/commit/8f39aca57a3f64ac02dc2766a48f74ec37201203))
+* **deps:** update dependency duckdb to v0.10.2 ([589f5ea](https://github.com/wolkwork/duckdb_driver/commit/589f5eadb279a5fdc114b75b22715c8aabdcf1ef))
+* **deps:** update dependency duckdb to v0.10.2 ([961cf9e](https://github.com/wolkwork/duckdb_driver/commit/961cf9ec07a67fb6a5cd597fe096b616150d7bc1))
+* **deps:** update dependency duckdb to v0.10.3 ([95ee594](https://github.com/wolkwork/duckdb_driver/commit/95ee594326a5b97e0031b6a159123b59b14386b0))
+* **deps:** update dependency duckdb to v0.10.3 ([7b5249a](https://github.com/wolkwork/duckdb_driver/commit/7b5249a8a22e748614ab24d91f0ed8124345591a))
+* **deps:** update dependency duckdb to v1 ([f196b33](https://github.com/wolkwork/duckdb_driver/commit/f196b338b383d597ebdb6bef69879e75e6a3edbb))
+* **deps:** update dependency duckdb to v1 ([edcbf3c](https://github.com/wolkwork/duckdb_driver/commit/edcbf3c5d3bdd4c6bd66eb6dafcdb79bc35d3d4f))
+* **deps:** update dependency duckdb to v1.1.2 ([5b0b871](https://github.com/wolkwork/duckdb_driver/commit/5b0b871f7c07926762b8874092cf15acbb77b145))
+* **deps:** update dependency duckdb to v1.1.2 ([d363897](https://github.com/wolkwork/duckdb_driver/commit/d363897bc63bb7814f48e454d2afc3c633073205))
+* **deps:** update dependency duckdb to v1.1.3 ([9aa226c](https://github.com/wolkwork/duckdb_driver/commit/9aa226cdc926f11e3d664346266705b2706e967d))
+* **deps:** update dependency duckdb to v1.1.3 ([3152ddb](https://github.com/wolkwork/duckdb_driver/commit/3152ddbf02c16cfb4bcdc1f56174be0473dc5bbd))
+* **deps:** update dependency packaging to v24 ([ebab0cb](https://github.com/wolkwork/duckdb_driver/commit/ebab0cb79ccf657dd5d4963f9a8e694f3b9b2f41))
+* **deps:** update dependency packaging to v24 ([c0b7754](https://github.com/wolkwork/duckdb_driver/commit/c0b7754ad1e6872e9ecc2b204228e3310bce64d0))
+* **deps:** update dependency packaging to v24.1 ([72deacd](https://github.com/wolkwork/duckdb_driver/commit/72deacdd1000b1362676d36e76d28f547ddd207e))
+* **deps:** update dependency packaging to v24.1 ([d9723d1](https://github.com/wolkwork/duckdb_driver/commit/d9723d145c57ca4640afdbacaec8a43ef490a7a4))
+* **deps:** update dependency packaging to v24.2 ([aa134ae](https://github.com/wolkwork/duckdb_driver/commit/aa134ae9741b7916a3921f82c51b995a2066b81a))
+* **deps:** update dependency packaging to v24.2 ([f5daa5a](https://github.com/wolkwork/duckdb_driver/commit/f5daa5a0599bfb7e00702bf29cae2fcc8f8f3aa8))
+* drop python 3.8 ([1acd720](https://github.com/wolkwork/duckdb_driver/commit/1acd720ca91d1438405f848c80425d5cbc715762))
+* **get_view_names:** Use proper schema ([#1082](https://github.com/wolkwork/duckdb_driver/issues/1082)) ([d5319c8](https://github.com/wolkwork/duckdb_driver/commit/d5319c80d3883425734062640ebd8562cf8525fb))
+* lock ([21d9238](https://github.com/wolkwork/duckdb_driver/commit/21d92387ea86b216e37bae41eb6259bc7dbcc051))
+* mypy fixes ([4a07d44](https://github.com/wolkwork/duckdb_driver/commit/4a07d445b15ff01efaa68a7e49552dccfd043330))
+* **nightly:** fix default connection references for nightly ([491dfff](https://github.com/wolkwork/duckdb_driver/commit/491dfff54f449cd60448298f3ec682fadcec5cfe))
+* **nightly:** fix default connection references for nightly ([c0848d2](https://github.com/wolkwork/duckdb_driver/commit/c0848d270a08981a2bdcae8bddd1ecafafd9b6ca))
+* panics in multi-threaded environments ([694d227](https://github.com/wolkwork/duckdb_driver/commit/694d2276a619256643b045ba9568d00ac0e6f9ef))
+* panics in multi-threaded environments ([d42c977](https://github.com/wolkwork/duckdb_driver/commit/d42c977c5db98a023984c7aed986b702e4228035)), closes [#1190](https://github.com/wolkwork/duckdb_driver/issues/1190)
+* Pass user config option via database name ([cbb60fd](https://github.com/wolkwork/duckdb_driver/commit/cbb60fd644f03986d3a2727d4242600161358027))
+* propagate kwargs through compilation nodes ([c5aa43f](https://github.com/wolkwork/duckdb_driver/commit/c5aa43faf6e7b67a535ad2d954b4cb71a5f6a6df))
+* propagate kwargs through compilation nodes ([95d8cef](https://github.com/wolkwork/duckdb_driver/commit/95d8cef236629815027b26cbb66a87069a5ccddc))
+* really remove it ([5d172bb](https://github.com/wolkwork/duckdb_driver/commit/5d172bbf9d719597e338ecca3b0b7aaf7e247838))
+* reexport postgresql insert function ([511bb35](https://github.com/wolkwork/duckdb_driver/commit/511bb35d57ea5b2d1e5632a83f36d793ebc87b71))
+* **reflection bug:** Fixed bug causing TypeError when using metadata.reflect() ([b96c1d2](https://github.com/wolkwork/duckdb_driver/commit/b96c1d2eccf362f12b67adde6203d49214ee47f3))
+* **reflection:** MetaData.reflect() raises exception with sqlalchemy v2.0.36 ([4163c68](https://github.com/wolkwork/duckdb_driver/commit/4163c68e351195cdee67887a899c1625d28e1a9e))
+* relax pin on `packaging` ([afb4715](https://github.com/wolkwork/duckdb_driver/commit/afb4715dab0ea7dc14c8c1679da59787c969f41b))
+* remove nox step as its installed by uv ([f06d1c3](https://github.com/wolkwork/duckdb_driver/commit/f06d1c38aa2918f203f5afe320eaa0dc58dba0bd))
+* restrict varint to supported versions ([ccdbc06](https://github.com/wolkwork/duckdb_driver/commit/ccdbc06c7fd07eba02e91cecdefe54b4ea6ea44b))
+* run mypy through `uv` from nox ([6b94f38](https://github.com/wolkwork/duckdb_driver/commit/6b94f38281f0abf764576d3146b127e3cddb285b))
+* set div_is_floordiv to False to avoid bad casts ([4671642](https://github.com/wolkwork/duckdb_driver/commit/4671642d480dffaba555ebb3cf737695298cdf28))
+* set div_is_floordiv to False to avoid bad casts ([dfbed6d](https://github.com/wolkwork/duckdb_driver/commit/dfbed6df21470192551636cefa6ff7386d2cf6ae))
+* **sqlalchemy versions:** Added statement to apply changes only for sqlalchemy version 2.0.36 and above ([d6fcd32](https://github.com/wolkwork/duckdb_driver/commit/d6fcd32461f69d348a55401cc3b8d5c737eb54ab))
+* update gh action pipeline to use uv ([951e34f](https://github.com/wolkwork/duckdb_driver/commit/951e34f329083113f315adc628c5292e52800763))
+* update Map type for 1.0+ ([bc79a18](https://github.com/wolkwork/duckdb_driver/commit/bc79a18a091d24177617fbb9150185f009259a68))
+* update Map type for 1.0+ ([7574837](https://github.com/wolkwork/duckdb_driver/commit/757483786a1eba7a606de90c665dcd86dd00dcec))
+* update workflows and docs after rename ([98d40e3](https://github.com/wolkwork/duckdb_driver/commit/98d40e36ca18ce5b8b5e2daf0683d92906fd542f))
+* use full list of reserved words ([19ee039](https://github.com/wolkwork/duckdb_driver/commit/19ee039ee8aad0269071b00eaa783da117748ddd))
+* use full list of reserved words ([6dbadf1](https://github.com/wolkwork/duckdb_driver/commit/6dbadf1edfe6fd6f0c698b6dc12debb654dde8bc))
+* use native interval support ([845ece6](https://github.com/wolkwork/duckdb_driver/commit/845ece6fd44c131fe0858c5516353c8c0b38043d))
+* use uv to execute mypy in nox ([ece5d3f](https://github.com/wolkwork/duckdb_driver/commit/ece5d3f2102ec166b1d4912e85009b7582b0dda7))
+
+
+### Documentation
+
+* add documentation for filesystems on README.md ([1242299](https://github.com/wolkwork/duckdb_driver/commit/12422994d43d57b07126d8cd13392de1ca8f0896))
+* update badges in readme ([bbc8d4d](https://github.com/wolkwork/duckdb_driver/commit/bbc8d4db9e30931c290117e75f6b4dcf74776351))
+* use `read_only=False` so that example doesn't raise an exception. ([#1079](https://github.com/wolkwork/duckdb_driver/issues/1079)) ([d0688b4](https://github.com/wolkwork/duckdb_driver/commit/d0688b4b3e740fb357b6862ebe1ac698506f6488))
+
+
+### Miscellaneous Chores
+
+* force release 0.11.5 ([4bf5640](https://github.com/wolkwork/duckdb_driver/commit/4bf5640dd98ac2e086cbe03d182f37eccd4bcd25))
+* release 0.12.0 (same as rc0) ([7842f2c](https://github.com/wolkwork/duckdb_driver/commit/7842f2c0ad12ae9dadbbc8145ef910cb4c4d1fee))
+* release 0.12.0-rc0 ([dc71073](https://github.com/wolkwork/duckdb_driver/commit/dc7107338c6b212ca6cccc7bcec398c378bd1a15))
+* release 0.13.7-pre0 ([b31083b](https://github.com/wolkwork/duckdb_driver/commit/b31083b094065f874e58fe7709a83a7f492f982b))
+* release 0.14.0 ([b07a965](https://github.com/wolkwork/duckdb_driver/commit/b07a9650f698001fa5a845d193402fddddefceb3))
+* release 0.16.0 ([7161129](https://github.com/wolkwork/duckdb_driver/commit/7161129f6559f353e8a25219af6f723f79832aa6))
+
 ## [0.17.0](https://github.com/Mause/duckdb_engine/compare/v0.16.0...v0.17.0) (2025-03-29)
 
 
