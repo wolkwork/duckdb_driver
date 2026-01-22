@@ -680,7 +680,7 @@ class Dialect(PGDialect_psycopg2):
 if sqlalchemy.__version__ >= "2.0.14":
     from sqlalchemy import TryCast  # type: ignore[attr-defined]
 
-    @compiles(TryCast, "duckdb")  # type: ignore[misc]
+    @compiles(TryCast, "duckdb")  # type: ignore
     def visit_try_cast(
         instance: TryCast,
         compiler: PGTypeCompiler,

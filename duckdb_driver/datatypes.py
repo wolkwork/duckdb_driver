@@ -93,6 +93,14 @@ if IS_GT_1:
     class VarInt(Integer):
         pass
 
+    class BigNum(Integer):
+        """
+        BIGNUM is a variable-length integer data type in DuckDB for arbitrarily large integers.
+        The maximal and minimal representable values are approximately ±4.27e20201778.
+        """
+
+        name = "BigNum"
+
 
 def compile_uint(element: Integer, compiler: PGTypeCompiler, **kw: Any) -> str:
     return getattr(element, "name", type(element).__name__)
@@ -219,6 +227,7 @@ ISCHEMA_NAMES = {
 }
 if IS_GT_1:
     ISCHEMA_NAMES["varint"] = VarInt
+    ISCHEMA_NAMES["bignum"] = BigNum
 
 
 def register_extension_types() -> None:
@@ -226,7 +235,7 @@ def register_extension_types() -> None:
         compiles(subclass, "duckdb")(compile_uint)
 
 
-@compiles(Struct, "duckdb")  # type: ignore[misc]
+@compiles(Struct, "duckdb")  # type: ignore
 def visit_struct(
     instance: Struct,
     compiler: PGTypeCompiler,
@@ -236,7 +245,7 @@ def visit_struct(
     return "STRUCT" + struct_or_union(instance, compiler, identifier_preparer, **kw)
 
 
-@compiles(Union, "duckdb")  # type: ignore[misc]
+@compiles(Union, "duckdb")  # type: ignore
 def visit_union(
     instance: Union,
     compiler: PGTypeCompiler,
@@ -276,7 +285,7 @@ def process_type(
     return compiler.process(type_api.to_instance(value), **kw)
 
 
-@compiles(Map, "duckdb")  # type: ignore[misc]
+@compiles(Map, "duckdb")  # type: ignore
 def visit_map(instance: Map, compiler: PGTypeCompiler, **kw: Any) -> str:
     return "MAP({}, {})".format(
         process_type(instance.key_type, compiler, **kw),
