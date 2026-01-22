@@ -1,5 +1,6 @@
 import re
 import warnings
+from collections.abc import Hashable
 from functools import lru_cache
 from typing import (
     TYPE_CHECKING,
@@ -44,6 +45,7 @@ sqlalchemy_version = sqlalchemy.__version__
 duckdb_version: str = duckdb.__version__
 supports_attach: bool = duckdb_version >= "0.7.0"
 supports_user_agent: bool = duckdb_version >= "0.9.2"
+supports_ducklake: bool = duckdb_version >= "1.3.0"
 
 if TYPE_CHECKING:
     from sqlalchemy.base import Connection
@@ -175,6 +177,26 @@ class CursorWrapper:
         else:
             return self.__c.fetchmany(size)
 
+    @property
+    def description(self) -> Optional[List[Tuple[Any, ...]]]:
+        description = self.__c.description
+        if description is None:
+            return None
+
+        sanitized: List[Tuple[Any, ...]] = []
+        for row in description:
+            if len(row) <= 1:
+                sanitized.append(tuple(row))
+                continue
+
+            type_code = row[1]
+            if isinstance(type_code, Hashable):
+                sanitized.append(tuple(row))
+            else:
+                sanitized.append((row[0], str(type_code), *row[2:]))
+
+        return sanitized
+
 
 class DuckDBEngineWarning(Warning):
     pass
@@ -297,8 +319,30 @@ class Dialect(PGDialect_psycopg2):
             config["custom_user_agent"] = user_agent
 
         filesystems = cparams.pop("register_filesystems", [])
+        database = cparams.pop("database", None)
+        # ducklake handling
+        if database and database.startswith("ducklake:") and supports_ducklake:
+            alias_ducklake = cparams.pop("alias", "ducklake")
+            data_path = cparams.pop("data_path", None)
+            read_only = cparams.pop("read_only", False)
 
-        conn = duckdb.connect(*cargs, **cparams)
+            attach_sql = f"""
+            ATTACH '{database}' AS {alias_ducklake}
+            """
+            if read_only and data_path is not None:
+                attach_sql += f" (DATA_PATH '{data_path}', READ_ONLY)"
+            elif read_only:
+                attach_sql += " (READ_ONLY)"
+            elif data_path is not None:
+                attach_sql += f" (DATA_PATH '{data_path}')"
+
+            conn = duckdb.connect(*cargs, **cparams)
+            conn.execute(attach_sql)
+            conn.execute(f"USE {alias_ducklake}")
+        elif database is not None:
+            conn = duckdb.connect(database, *cargs, **cparams)
+        else:
+            conn = duckdb.connect(*cargs, **cparams)
 
         for extension in preload_extensions:
             conn.execute(f"LOAD {extension}")
@@ -317,6 +361,16 @@ class Dialect(PGDialect_psycopg2):
     def get_pool_class(cls, url: URL) -> Type[pool.Pool]:
         if url.database == ":memory:":
             return pool.SingletonThreadPool
+        elif (
+            url.database and supports_ducklake and url.database.startswith("ducklake:")
+        ):
+            # DuckLake connections need a static pool because the ATTACH
+            # statement can only be executed once per connection - subsequent
+            # pool connections would fail with "already attached" errors
+            if url.database.startswith("ducklake:postgres"):
+                return pool.QueuePool
+            else:
+                return pool.StaticPool
         else:
             return pool.QueuePool
 
