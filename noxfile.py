@@ -64,4 +64,4 @@ def tests_core(session: nox.Session, duckdb: str, sqlalchemy: str) -> None:
 
 @nox.session(py=["3.11"])
 def mypy(session: nox.Session) -> None:
-    session.run("mypy", "duckdb_driver/")
+    session.run("mypy", "duckdb_driver/", external=True)
