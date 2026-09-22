@@ -112,6 +112,15 @@ def quack_server() -> Generator[Dict[str, Any], None, None]:
         client = _client()
     except duckdb.Error as e:
         pytest.skip(f"quack extension not available: {e}")
+    # older DuckDB versions ship a quack extension without these functions
+    functions = {"quack_serve", "quack_query", "quack_query_by_name"}
+    available = client.execute(
+        "SELECT DISTINCT function_name FROM duckdb_functions() "
+        "WHERE function_name IN ('quack_serve', 'quack_query', 'quack_query_by_name')"
+    ).fetchall()
+    if {name for (name,) in available} != functions:
+        client.close()
+        pytest.skip(f"quack extension of DuckDB {duckdb.__version__} is not supported")
 
     port = _free_port()
     uri = f"quack:localhost:{port}"
