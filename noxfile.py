@@ -26,7 +26,7 @@ def group(title: str) -> Generator[None, None, None]:
 # TODO: "0.5.1", "0.6.1", "0.7.1", "0.8.1"
 # TODO: 3.11, 3.12, 3.13
 @session(python=["3.10", "3.11"], uv_groups=["dev", "nox"])
-@nox.parametrize("duckdb", ["1.4.3"])
+@nox.parametrize("duckdb", ["1.4.3", "1.5.5"])
 @nox.parametrize(
     "sqlalchemy",
     [

@@ -26,6 +26,8 @@ repository = "https://github.com/wolkwork/duckdb_driver"
 
 [project.entry-points."sqlalchemy.dialects"]
 duckdb = "duckdb_driver:Dialect"
+quack = "duckdb_driver.quack:QuackDialect"
+"duckdb.quack" = "duckdb_driver.quack:QuackDialect"
 
 [dependency-groups]
 dev = [

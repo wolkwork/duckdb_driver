@@ -12,6 +12,9 @@ Basic SQLAlchemy driver for [DuckDB](https://duckdb.org/)
   - [Usage](#usage)
   - [Usage in IPython/Jupyter](#usage-in-ipythonjupyter)
   - [Configuration](#configuration)
+  - [Connecting to a remote DuckDB (Quack)](#connecting-to-a-remote-duckdb-quack)
+    - [Execution modes](#execution-modes)
+    - [Using with Apache Superset](#using-with-apache-superset)
   - [How to register a pandas DataFrame](#how-to-register-a-pandas-dataframe)
   - [Things to keep in mind](#things-to-keep-in-mind)
     - [Auto-incrementing ID columns](#auto-incrementing-id-columns)
@@ -84,6 +87,60 @@ create_engine(
 ```
 
 The supported configuration parameters are listed in the [DuckDB docs](https://duckdb.org/docs/sql/configuration)
+
+## Connecting to a remote DuckDB (Quack)
+
+> Requires DuckDB >= 1.5 and the [`quack`](https://duckdb.org/quack/) extension, which is still experimental upstream.
+
+[Quack](https://duckdb.org/quack/) is DuckDB's client/server protocol: one DuckDB serves, another connects. On the server:
+
+```sql
+CALL quack_serve('quack:0.0.0.0:9494', token = 'super_secret', allow_other_hostname = true);
+```
+
+Then connect from SQLAlchemy with the `quack://` scheme:
+
+```python
+from sqlalchemy import create_engine, text
+
+engine = create_engine("quack://:super_secret@db.example.com:9494")
+
+with engine.connect() as conn:
+    conn.execute(text("SELECT region, sum(amount) FROM sales GROUP BY ALL")).fetchall()
+```
+
+URL format: `quack://[:token]@host[:port][/database][?option=value...]`
+
+| Part / option | Default | Description |
+|---|---|---|
+| `host` | `localhost` | Server hostname. |
+| `port` | `9494` | Server port. |
+| password (`:token@`) | none | Token the server checks (the `token` given to `quack_serve`, or whatever your `quack_authentication_function` accepts). Can also be passed as `connect_args={"token": ...}`. The username part is ignored. |
+| `/database` | server default | Server-side database to `USE` after connecting (remote mode only). |
+| `execution` | `remote` | `remote` or `local`, see below. |
+| `disable_ssl` | extension default (no TLS for localhost, TLS otherwise) | Set `true`/`false` to force plain HTTP / HTTPS. `quack_serve` itself listens on plain HTTP, so non-local servers are expected to sit behind a TLS-terminating reverse proxy. |
+| `alias` | `quack` | Name of the attached catalog on the client. |
+
+Other query parameters are applied as DuckDB settings on the *local* client, like with `duckdb://`. `duckdb+quack://` is accepted as an alias of `quack://`.
+
+### Execution modes
+
+* **`remote` (default)** — every statement is sent verbatim to the server (through `quack_query_by_name`) and executed there entirely: joins, aggregations, server-side macros and extensions, and reflection queries (`information_schema`, `duckdb_tables()`, ...) all see the server. Only results travel back. Transactions (`BEGIN`/`COMMIT`/`ROLLBACK`) and session state (`USE`, `SET`) live on the server connection. Caveats:
+  * The Quack protocol has no bind parameters, so parameters are rendered into SQL literals client-side (`None`, `bool`, `int`, `float`, `Decimal`, `str`, `bytes`, `date`/`time`/`datetime`/`timedelta`, `UUID`, lists and dicts are supported; anything else raises `TypeError`). `executemany` sends one statement per parameter set.
+  * Only the result of the first statement is returned when a string contains several statements.
+  * Client-only features such as registering a pandas DataFrame are not available.
+* **`local`** — the server is `ATTACH`ed and set as default catalog, and the local DuckDB plans and executes queries. Quack pushes projections and simple filters down to the server, but joins and aggregations run on the client. Useful to combine remote with local data. Caveats (current Quack limitations): a query can't scan more than one remote table (so no joins between remote tables), and a local `ROLLBACK` does not undo writes already sent to the server.
+
+Each pooled SQLAlchemy connection is a separate in-memory client DuckDB with its own Quack connection, so the regular `QueuePool` is used and `pool_pre_ping` really checks the server.
+
+### Using with Apache Superset
+
+Use a URI like `quack://:{token}@{host}:9494/`. Some notes:
+
+* Superset's default `PREVENT_UNSAFE_DB_CONNECTIONS = True` rejects every `duckdb://` / `duckdb+...://` URI (local DuckDB can read the Superset host's filesystem). `quack://` is not on that blocklist, which is why it is the primary scheme. Keep the default `execution=remote` so that user SQL is only ever executed by the server; `execution=local` runs SQL in a DuckDB inside the Superset process.
+* All SQL from Superset users runs on the server with the server process' privileges. Harden the server accordingly, e.g. `SET enable_external_access = false` (after attaching what it needs) and/or a `quack_authorization_function`.
+* Superset has no engine spec for the `quack` backend yet, so it falls back to its generic one (no time grains, generic SQL parsing). A `QuackEngineSpec` in Superset (subclassing its `DuckDBEngineSpec`, plus mapping `quack` to sqlglot's DuckDB dialect) is needed to get the same experience as the `duckdb` engine.
+* Superset uses `NullPool` by default, so every query opens a new client and Quack connection.
 
 ## How to register a pandas DataFrame
 

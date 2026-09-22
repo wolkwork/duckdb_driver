@@ -178,7 +178,8 @@ def test_all_types_reflection(engine: Engine) -> None:
             name = col.name
             if name.endswith("_enum") and duckdb_version < Version("0.7.1"):
                 continue
-            if "array" in name or "struct" in name or "map" in name or "union" in name:
+            # no SQLAlchemy equivalent for these types
+            if any(t in name for t in ("array", "struct", "map", "union", "geometry")):
                 assert col.type == sqltypes.NULLTYPE, name
             else:
                 assert col.type != sqltypes.NULLTYPE, name

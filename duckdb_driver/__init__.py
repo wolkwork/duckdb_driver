@@ -305,6 +305,9 @@ class Dialect(PGDialect_psycopg2):
         return res
 
     def connect(self, *cargs: Any, **cparams: Any) -> "Connection":
+        return ConnectionWrapper(self._connect_duckdb(*cargs, **cparams))
+
+    def _connect_duckdb(self, *cargs: Any, **cparams: Any) -> duckdb.DuckDBPyConnection:
         core_keys = get_core_config()
         preload_extensions = cparams.pop("preload_extensions", [])
         config = dict(cparams.get("config", {}))
@@ -352,7 +355,7 @@ class Dialect(PGDialect_psycopg2):
 
         apply_config(self, conn, ext)
 
-        return ConnectionWrapper(conn)
+        return conn
 
     def on_connect(self) -> None:
         pass
